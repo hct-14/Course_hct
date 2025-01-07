@@ -14,15 +14,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "permissions")
-
 public class Permission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private String description;
 
-    @OneToMany
-    @JoinColumn(name = "role_id")
+    // Quan hệ Many-to-Many với Role
+    @ManyToMany(mappedBy = "permissions")
     private List<Role> roles;
 }

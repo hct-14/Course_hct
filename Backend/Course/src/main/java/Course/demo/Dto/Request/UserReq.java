@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,6 +38,8 @@ public class UserReq {
     @NotBlank(message = "Email is required.")
     @Email(message = "Invalid email format.")
     private String email;
+
+    @Pattern(regexp = "\\d{10,15}", message = "Phone number must contain only digits and be between 10 and 15 characters.")
     private String phone;
     private String address;
     private String gender;

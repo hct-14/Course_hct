@@ -1,5 +1,7 @@
-package vn.hoidanit.jobhunter.util;
+package Course.demo.Util;
 
+import Course.demo.Dto.Reponse.RestResponse;
+import Course.demo.Util.annotation.ApiMessage;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -10,8 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import jakarta.servlet.http.HttpServletResponse;
-import vn.hoidanit.jobhunter.domain.response.RestResponse;
-import vn.hoidanit.jobhunter.util.annotation.ApiMessage;
+
 
 @ControllerAdvice
 public class FormatRestResponse implements ResponseBodyAdvice<Object> {

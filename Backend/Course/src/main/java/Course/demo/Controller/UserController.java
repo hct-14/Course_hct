@@ -2,6 +2,7 @@ package Course.demo.Controller;
 
 import Course.demo.Dto.Reponse.CreateUserReponse;
 import Course.demo.Dto.Reponse.UpdateUserReponse;
+import Course.demo.Dto.Request.UpdateUserReq;
 import Course.demo.Dto.Request.UserReq;
 import Course.demo.Entity.User;
 import Course.demo.Service.UserService;
@@ -28,10 +29,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToCreateUserReponse(userSave));
     }
     @PutMapping("update")
-    public ResponseEntity<UpdateUserReponse> update(@Valid @RequestBody UserReq userReq) {
+    public ResponseEntity<UpdateUserReponse> update(@Valid @RequestBody UpdateUserReq userReq) {
+
         User updatedUser = this.userService.updateUser(userReq);
-        UpdateUserReponse response = this.userService.converToUpdateUserReponse(updatedUser);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToUpdateUserReponse(updatedUser));
     }
 
 }

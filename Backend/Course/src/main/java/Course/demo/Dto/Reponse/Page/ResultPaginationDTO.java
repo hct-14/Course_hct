@@ -1,4 +1,4 @@
-package job_hunter.hct_14.entity.response;
+package Course.demo.Dto.Reponse.Page;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,5 @@
 package Course.demo.Util.constant;
 
-public enum UserStatus {
+public enum UserStatusEnum {
+    NORMAL, LOCKED
 }

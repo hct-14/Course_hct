@@ -1,7 +1,10 @@
 package Course.demo.Entity;
 
+import Course.demo.Util.constant.ExpEnum;
 import Course.demo.Util.constant.GenderEnum;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import Course.demo.Util.constant.TeacherStatusEnum;
+import Course.demo.Util.constant.UserStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,14 +30,16 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
-//    @NotBlank(message = "Password is required.")
-//    @Size(min = 6, message = "Password must be at least 6 characters.")
+
     private String password;
     private String phone;
     private String address;
     private String email;
-    private LocalDate  birthday;
-
+    private LocalDate birthday;
+    private ExpEnum exp;
+    private String cvUrl;
+//    private UserStatusEnum userStatus;
+    private TeacherStatusEnum teacherStatus;
     @Column(columnDefinition = "MEDIUMTEXT")
     private String description;
 
@@ -43,7 +48,6 @@ public class User {
 
     private String linkFb;
     private String avt;
-
     private float income;
 
     // Quan hệ Many-to-One với Role
@@ -55,7 +59,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prove> proves;
 
-    // Quan hệ One-to-Many với Course
+    // Quan hệ One-to-Many với UserCourse
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Course> courses;
+    private List<UserCourse> userCourses;
 }
