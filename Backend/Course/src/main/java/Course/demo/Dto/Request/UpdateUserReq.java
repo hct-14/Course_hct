@@ -1,10 +1,8 @@
 package Course.demo.Dto.Request;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import java.time.LocalDate;
 
 @Setter
@@ -12,20 +10,22 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateUserReq {
-
-    @NotBlank(message = "First name is required.")
+    private int id;
     private String firstName;
-    @NotBlank(message = "Last name is required.")
     private String lastName;
     private String gender;
+
     @Pattern(regexp = "\\d+", message = "Phone number must contain only digits.")
-    @Size(max = 11, message = "Phone number must not exceed 15 characters.")
+    @Size(min = 1, max = 15, message = "Phone number must be between 10 and 15 characters long.")
     private String phone;
+
     private String address;
     @Email(message = "Invalid email format.")
     private String email;
+
     @Past(message = "Birthday must be a past date.")
     private LocalDate birthday;
+
     private String linkFb;
     private String avt;
 }
