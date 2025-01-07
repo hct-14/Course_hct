@@ -65,7 +65,6 @@ public class UserService {
         ResultPaginationDTO rs = new ResultPaginationDTO();
         ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
 
-        // Thiết lập thông tin phân trang
         meta.setPage(pageable.getPageNumber() + 1);
         meta.setPageSize(pageable.getPageSize());
         meta.setPages(pageUsers.getTotalPages());
@@ -73,7 +72,6 @@ public class UserService {
 
         List<UserReponse> userResponses = pageUsers.stream()
                 .map(user -> {
-                    // Chuyển đổi Prove thành danh sách ProveResponse
                     List<ProveResponse> proves = user.getProves().stream()
                             .map(prove -> new ProveResponse(
                                     prove.getId(),
@@ -106,7 +104,7 @@ public class UserService {
                             user.getAvt(),
                             user.getIncome(),
                             user.getRole(),
-                            proves,  // Đưa proves vào UserReponse dưới dạng ProveResponse
+                            proves,
                             user.getUserCourses()
                     );
                 })

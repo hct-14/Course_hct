@@ -6,6 +6,7 @@ import Course.demo.Entity.UserCourse;
 import Course.demo.Util.constant.ExpEnum;
 import Course.demo.Util.constant.GenderEnum;
 import Course.demo.Util.constant.TeacherStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,6 +42,7 @@ public class UserReponse {
     private String linkFb;
     private String avt;
     private float income;
+    @JsonIgnore
     private Role role;
     private List<ProveResponse> proves;
     private List<UserCourse> userCourses;
