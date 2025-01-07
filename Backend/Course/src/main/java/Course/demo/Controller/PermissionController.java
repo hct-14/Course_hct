@@ -47,6 +47,10 @@ public class PermissionController {
         return ResponseEntity.status(HttpStatus.OK).body(this.permissionService.converToPermission(permission));
     }
 
-
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePermission(@PathVariable int id) throws IdInvaldException {
+        permissionService.deletePermission(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Permission deleted");
+    }
 
 }

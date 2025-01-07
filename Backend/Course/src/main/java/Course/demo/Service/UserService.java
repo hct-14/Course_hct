@@ -1,9 +1,13 @@
 package Course.demo.Service;
 
 import Course.demo.Dto.Reponse.CreateUserReponse;
+import Course.demo.Dto.Reponse.Page.ResultPaginationDTO;
+import Course.demo.Dto.Reponse.ProveResponse;
 import Course.demo.Dto.Reponse.UpdateUserReponse;
+import Course.demo.Dto.Reponse.UserReponse;
 import Course.demo.Dto.Request.UpdateUserReq;
 import Course.demo.Dto.Request.UserReq;
+import Course.demo.Entity.Permission;
 import Course.demo.Entity.User;
 import Course.demo.Mapper.UserMapper;
 import Course.demo.Repository.UserRepository;
@@ -11,9 +15,16 @@ import Course.demo.Util.constant.GenderEnum;
 import Course.demo.Util.error.IdInvaldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContextException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -49,21 +60,65 @@ public class UserService {
         return user.get();
     }
 
-//    public ResultPaginationDTO fetchAll(Specification<User> spec, Pageable pageable){
-//        Page<User> pageUsers = this.userRepositoty.findAll(spec, pageable);
-//        ResultPaginationDTO rs = new ResultPaginationDTO();
-//        ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
-//
-//        meta.setPage(pageable.getPageNumber()+ 1);
-//        meta.setPageSize(pageable.getPageSize());
-//        meta.setPages(pageUsers.getTotalPages());
-//        meta.setTotal(pageUsers.getTotalElements());
-//
-//        User
-//
-//
-//
-//    }
+    public ResultPaginationDTO fetchAll(Specification<User> spec, Pageable pageable) {
+        Page<User> pageUsers = this.userRepository.findAll(spec, pageable);
+        ResultPaginationDTO rs = new ResultPaginationDTO();
+        ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
+
+        // Thiết lập thông tin phân trang
+        meta.setPage(pageable.getPageNumber() + 1);
+        meta.setPageSize(pageable.getPageSize());
+        meta.setPages(pageUsers.getTotalPages());
+        meta.setTotal(pageUsers.getTotalElements());
+
+        List<UserReponse> userResponses = pageUsers.stream()
+                .map(user -> {
+                    // Chuyển đổi Prove thành danh sách ProveResponse
+                    List<ProveResponse> proves = user.getProves().stream()
+                            .map(prove -> new ProveResponse(
+                                    prove.getId(),
+                                    prove.getCountry(),
+                                    prove.getNameFacility(),
+                                    prove.getExpertise(),
+                                    prove.getCity(),
+                                    prove.getImage(),
+                                    prove.getType()
+                            ))
+                            .collect(Collectors.toList());
+
+                    // Tạo đối tượng UserReponse từ User
+                    return new UserReponse(
+                            user.getId(),
+                            user.getFirstName(),
+                            user.getLastName(),
+                            user.getGender(),
+                            user.getPassword(),
+                            user.getPhone(),
+                            user.getAddress(),
+                            user.getEmail(),
+                            user.getBirthday(),
+                            user.getExp(),
+                            user.getCvUrl(),
+                            user.getTeacherStatus(),
+                            user.getDescription(),
+                            user.getRefreshToken(),
+                            user.getLinkFb(),
+                            user.getAvt(),
+                            user.getIncome(),
+                            user.getRole(),
+                            proves,  // Đưa proves vào UserReponse dưới dạng ProveResponse
+                            user.getUserCourses()
+                    );
+                })
+                .collect(Collectors.toList());
+
+        rs.setMeta(meta);
+        rs.setResult(userResponses);
+
+        return rs;
+    }
+
+
     public User updateUser(UpdateUserReq userReqFe) throws ApplicationContextException {
 
         Optional<User> optionalUser = this.userRepository.findById(userReqFe.getId());

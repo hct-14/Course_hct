@@ -72,11 +72,11 @@ public class PermissionService {
         return permissionOptional.get();
     }
 
-    public void deletePermission(int id) {
+    public void deletePermission(int id) throws  IdInvaldException {
             // Kiểm tra permission có tồn tại không
             Optional<Permission> permissionOptional = this.permissionRepository.findById(id);
             if (!permissionOptional.isPresent()) {
-                throw new ApplicationContextException("Permission does not exist");
+                throw new IdInvaldException("Permission does not exist");
             }
 
             Permission permission = permissionOptional.get();

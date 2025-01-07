@@ -7,10 +7,17 @@ import Course.demo.Util.constant.ExpEnum;
 import Course.demo.Util.constant.GenderEnum;
 import Course.demo.Util.constant.TeacherStatusEnum;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
-
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserReponse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +28,6 @@ public class UserReponse {
 
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
-
     private String password;
     private String phone;
     private String address;
@@ -31,23 +37,11 @@ public class UserReponse {
     private String cvUrl;
     private TeacherStatusEnum teacherStatus;
     private String description;
-
     private String refreshToken;
-
     private String linkFb;
     private String avt;
     private float income;
-
-    // Quan hệ Many-to-One với Role
-    @ManyToOne
-    @JoinColumn(name = "role_id")
     private Role role;
-
-    // Quan hệ One-to-Many với Prove
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Prove> proves;
-
-    // Quan hệ One-to-Many với UserCourse
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProveResponse> proves;
     private List<UserCourse> userCourses;
 }
