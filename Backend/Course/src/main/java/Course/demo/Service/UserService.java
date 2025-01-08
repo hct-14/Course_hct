@@ -71,43 +71,7 @@ public class UserService {
         meta.setTotal(pageUsers.getTotalElements());
 
         List<UserReponse> userResponses = pageUsers.stream()
-                .map(user -> {
-                    List<ProveResponse> proves = user.getProves().stream()
-                            .map(prove -> new ProveResponse(
-                                    prove.getId(),
-                                    prove.getCountry(),
-                                    prove.getNameFacility(),
-                                    prove.getExpertise(),
-                                    prove.getCity(),
-                                    prove.getImage(),
-                                    prove.getType()
-                            ))
-                            .collect(Collectors.toList());
-
-                    // Tạo đối tượng UserReponse từ User
-                    return new UserReponse(
-                            user.getId(),
-                            user.getFirstName(),
-                            user.getLastName(),
-                            user.getGender(),
-                            user.getPassword(),
-                            user.getPhone(),
-                            user.getAddress(),
-                            user.getEmail(),
-                            user.getBirthday(),
-                            user.getExp(),
-                            user.getCvUrl(),
-                            user.getTeacherStatus(),
-                            user.getDescription(),
-                            user.getRefreshToken(),
-                            user.getLinkFb(),
-                            user.getAvt(),
-                            user.getIncome(),
-                            user.getRole(),
-                            proves,
-                            user.getUserCourses()
-                    );
-                })
+                .map(user -> this.converToUserReponse(user))
                 .collect(Collectors.toList());
 
         rs.setMeta(meta);
@@ -116,6 +80,13 @@ public class UserService {
         return rs;
     }
 
+    public void deleteById(int id) throws IdInvaldException {
+        Optional<User> user = this.userRepository.findById(id);
+        if (!user.isPresent()) {
+            throw new IdInvaldException("User not found");
+        }
+        this.userRepository.deleteById(id);
+    }
 
     public User updateUser(UpdateUserReq userReqFe) throws ApplicationContextException {
 
@@ -179,6 +150,42 @@ public class UserService {
         res.setBirthday(user.getBirthday());
         res.setAvt(user.getAvt());
         return res;
+    }
+    public UserReponse converToUserReponse(User user) {
+        List<ProveResponse> proveResponses = user.getProves().stream()
+                .map(prove -> new ProveResponse(
+                        prove.getId(),
+                        prove.getCountry(),
+                        prove.getNameFacility(),
+                        prove.getExpertise(),
+                        prove.getCity(),
+                        prove.getImage(),
+                        prove.getType()
+                ))
+                .collect(Collectors.toList());
+
+        return new UserReponse(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getGender(),
+                user.getPassword(),
+                user.getPhone(),
+                user.getAddress(),
+                user.getEmail(),
+                user.getBirthday(),
+                user.getExp(),
+                user.getCvUrl(),
+                user.getTeacherStatus(),
+                user.getDescription(),
+                user.getRefreshToken(),
+                user.getLinkFb(),
+                user.getAvt(),
+                user.getIncome(),
+                user.getRole(),
+                proveResponses,
+                user.getUserCourses()
+        );
     }
 
 }

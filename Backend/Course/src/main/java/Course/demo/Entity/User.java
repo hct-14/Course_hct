@@ -3,8 +3,6 @@ package Course.demo.Entity;
 import Course.demo.Util.constant.ExpEnum;
 import Course.demo.Util.constant.GenderEnum;
 import Course.demo.Util.constant.TeacherStatusEnum;
-import Course.demo.Util.constant.UserStatusEnum;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
