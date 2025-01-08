@@ -9,6 +9,6 @@ import java.util.List;
 public interface PermissionRepository extends JpaRepository<Permission, Integer> , JpaSpecificationExecutor<Permission> {
 
     boolean existsByName(String name);
-    List<Permission> findByNameIn(List<String> permissionNames);
+    List<Permission> findByNameIn(List<Permission> permissionNames);
 
 }

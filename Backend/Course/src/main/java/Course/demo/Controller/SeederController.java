@@ -19,7 +19,7 @@ public class SeederController {
         this.userSeeder = userSeeder;
     }
 
-    @GetMapping("/")
+    @GetMapping("/create")
     public ResponseEntity<String> seedAllData() {
         roleSeeder.seedData();
 

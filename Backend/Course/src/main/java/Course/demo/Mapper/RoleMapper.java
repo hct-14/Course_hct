@@ -1,6 +1,7 @@
 package Course.demo.Mapper;
 
 import Course.demo.Dto.Request.CreateRoleReq;
+import Course.demo.Dto.Request.UpdateRoleReq;
 import Course.demo.Entity.Role;
 import org.mapstruct.Mapper;
 
@@ -8,4 +9,6 @@ import org.mapstruct.Mapper;
 public interface RoleMapper {
 
     Role toRole(CreateRoleReq roleReq);
+    Role toRoleUpdate(UpdateRoleReq roleReq);
+
 }
