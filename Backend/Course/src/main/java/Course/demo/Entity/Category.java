@@ -20,7 +20,6 @@ public class Category {
 
     private String name;
 
-    // Quan hệ One-to-Many với Course
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Course> courses;
 }

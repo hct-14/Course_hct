@@ -34,11 +34,9 @@ public class Course {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    // Quan hệ One-to-Many với UserCourse
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserCourse> userCourses;
 
-    // Quan hệ One-to-Many với Comment
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 }
