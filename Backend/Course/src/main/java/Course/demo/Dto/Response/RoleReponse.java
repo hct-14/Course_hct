@@ -1,7 +1,6 @@
-package Course.demo.Dto.Reponse;
+package Course.demo.Dto.Response;
 
 import Course.demo.Entity.Permission;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

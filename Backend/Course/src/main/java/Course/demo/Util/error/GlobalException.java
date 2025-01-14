@@ -1,6 +1,6 @@
 package Course.demo.Util.error;
 
-import Course.demo.Dto.Reponse.RestResponse;
+import Course.demo.Dto.Response.RestResponse;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

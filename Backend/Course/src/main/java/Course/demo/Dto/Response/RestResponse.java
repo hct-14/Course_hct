@@ -1,4 +1,4 @@
-package Course.demo.Dto.Reponse;
+package Course.demo.Dto.Response;
 
 import lombok.Getter;
 import lombok.Setter;

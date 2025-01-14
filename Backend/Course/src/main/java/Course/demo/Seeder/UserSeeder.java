@@ -47,8 +47,8 @@ public class UserSeeder {
 
         for (int i = 0; i < 10; i++) {
             User user = new User();
-            user.setFirstName(faker.name().firstName());
-            user.setLastName(faker.name().lastName());
+            user.setName(faker.name().firstName());
+//            user.setLastName(faker.name().lastName());
             user.setGender(randomGender());
             user.setPassword(faker.internet().password());
             user.setPhone(faker.phoneNumber().cellPhone());

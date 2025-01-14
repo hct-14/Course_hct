@@ -1,6 +1,6 @@
 package Course.demo.Util;
 
-import Course.demo.Dto.Reponse.RestResponse;
+import Course.demo.Dto.Response.RestResponse;
 import Course.demo.Util.annotation.ApiMessage;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.io.Resource;

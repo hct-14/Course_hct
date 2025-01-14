@@ -1,7 +1,7 @@
 package Course.demo.Controller;
 
-import Course.demo.Dto.Reponse.CategoryReponse;
-import Course.demo.Dto.Reponse.Page.ResultPaginationDTO;
+import Course.demo.Dto.Response.CategoryReponse;
+import Course.demo.Dto.Response.Page.ResultPaginationDTO;
 import Course.demo.Dto.Request.CategoryReq;
 import Course.demo.Entity.Category;
 import Course.demo.Service.CategoryService;
@@ -12,8 +12,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/category")

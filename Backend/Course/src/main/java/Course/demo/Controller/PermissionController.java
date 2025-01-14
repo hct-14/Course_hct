@@ -1,7 +1,7 @@
 package Course.demo.Controller;
 
-import Course.demo.Dto.Reponse.Page.ResultPaginationDTO;
-import Course.demo.Dto.Reponse.PermissionReponse;
+import Course.demo.Dto.Response.Page.ResultPaginationDTO;
+import Course.demo.Dto.Response.PermissionReponse;
 import Course.demo.Dto.Request.CreatePermissionReq;
 import Course.demo.Dto.Request.UpdatePermissionReq;
 import Course.demo.Entity.Permission;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

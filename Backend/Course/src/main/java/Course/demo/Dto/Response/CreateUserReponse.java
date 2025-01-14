@@ -1,9 +1,5 @@
-package Course.demo.Dto.Reponse;
+package Course.demo.Dto.Response;
 
-import Course.demo.Util.constant.GenderEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -26,10 +26,10 @@ import java.time.LocalDateTime;
 public class UserReq {
     private int id;
     @NotBlank(message = "First name is required.")
-    private String firstName;
+    private String name;
 
-    @NotBlank(message = "Last name is required.")
-    private String lastName;
+//    @NotBlank(message = "Last name is required.")
+//    private String lastName;
 
     @NotBlank(message = "Password is required.")
     @Size( min = 6, message = "Password must be at least 6 characters.")

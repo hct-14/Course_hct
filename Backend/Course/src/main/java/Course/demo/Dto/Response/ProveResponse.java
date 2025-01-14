@@ -1,6 +1,5 @@
-package Course.demo.Dto.Reponse;
+package Course.demo.Dto.Response;
 
-import Course.demo.Entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

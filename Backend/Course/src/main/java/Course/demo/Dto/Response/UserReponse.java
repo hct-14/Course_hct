@@ -1,6 +1,5 @@
-package Course.demo.Dto.Reponse;
+package Course.demo.Dto.Response;
 
-import Course.demo.Entity.Prove;
 import Course.demo.Entity.Role;
 import Course.demo.Entity.UserCourse;
 import Course.demo.Util.constant.ExpEnum;
@@ -24,8 +23,8 @@ public class UserReponse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String firstName;
-    private String lastName;
+    private String name;
+//    private String lastName;
 
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;

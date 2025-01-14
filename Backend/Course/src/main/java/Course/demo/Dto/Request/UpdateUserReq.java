@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UpdateUserReq {
     private int id;
-    private String firstName;
-    private String lastName;
+    private String name;
+//    private String lastName;
     private String gender;
 
     @Pattern(regexp = "\\d+", message = "Phone number must contain only digits.")

@@ -1,7 +1,7 @@
 package Course.demo.Service;
 
-import Course.demo.Dto.Reponse.Page.ResultPaginationDTO;
-import Course.demo.Dto.Reponse.PermissionReponse;
+import Course.demo.Dto.Response.Page.ResultPaginationDTO;
+import Course.demo.Dto.Response.PermissionReponse;
 import Course.demo.Dto.Request.CreatePermissionReq;
 import Course.demo.Dto.Request.UpdatePermissionReq;
 import Course.demo.Entity.Permission;

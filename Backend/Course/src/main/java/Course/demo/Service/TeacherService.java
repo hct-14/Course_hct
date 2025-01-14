@@ -1,6 +1,6 @@
 package Course.demo.Service;
 
-import Course.demo.Dto.Reponse.TeacherReponse;
+import Course.demo.Dto.Response.TeacherReponse;
 import Course.demo.Dto.Request.RegisterTeacherReq;
 import Course.demo.Entity.Role;
 import Course.demo.Entity.User;

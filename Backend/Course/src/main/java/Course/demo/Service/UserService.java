@@ -1,13 +1,12 @@
 package Course.demo.Service;
 
-import Course.demo.Dto.Reponse.CreateUserReponse;
-import Course.demo.Dto.Reponse.Page.ResultPaginationDTO;
-import Course.demo.Dto.Reponse.ProveResponse;
-import Course.demo.Dto.Reponse.UpdateUserReponse;
-import Course.demo.Dto.Reponse.UserReponse;
+import Course.demo.Dto.Response.CreateUserReponse;
+import Course.demo.Dto.Response.Page.ResultPaginationDTO;
+import Course.demo.Dto.Response.ProveResponse;
+import Course.demo.Dto.Response.UpdateUserReponse;
+import Course.demo.Dto.Response.UserReponse;
 import Course.demo.Dto.Request.UpdateUserReq;
 import Course.demo.Dto.Request.UserReq;
-import Course.demo.Entity.Permission;
 import Course.demo.Entity.User;
 import Course.demo.Mapper.UserMapper;
 import Course.demo.Repository.UserRepository;
@@ -20,9 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -59,6 +56,9 @@ public class UserService {
         }
         return user.get();
     }
+    public boolean isEmailExist(String email) {
+        return this.userRepository.existsByEmail(email);
+    }
 
     public ResultPaginationDTO fetchAll(Specification<User> spec, Pageable pageable) {
         Page<User> pageUsers = this.userRepository.findAll(spec, pageable);
@@ -87,7 +87,9 @@ public class UserService {
         }
         this.userRepository.deleteById(id);
     }
-
+    public User handleGetUserByUsername(String username) {
+        return this.userRepository.findByEmail(username);
+    }
     public User updateUser(UpdateUserReq userReqFe) throws ApplicationContextException {
 
         Optional<User> optionalUser = this.userRepository.findById(userReqFe.getId());
@@ -110,12 +112,12 @@ public class UserService {
             }
             existingUser.setPhone(userReqFe.getPhone());
         }
-        // Cập nhật các trường khác nếu có
-        if (userReqFe.getFirstName() != null && !userReqFe.getFirstName().isEmpty()) {
-            existingUser.setFirstName(userReqFe.getFirstName());
-        }
-        if (userReqFe.getLastName() != null && !userReqFe.getLastName().isEmpty()) {
-            existingUser.setLastName(userReqFe.getLastName());
+//        // Cập nhật các trường khác nếu có
+//        if (userReqFe.getFirstName() != null && !userReqFe.getFirstName().isEmpty()) {
+//            existingUser.setFirstName(userReqFe.getFirstName());
+//        }
+        if (userReqFe.getName() != null && !userReqFe.getName().isEmpty()) {
+            existingUser.setName(userReqFe.getName());
         }
         if (userReqFe.getAddress() != null && !userReqFe.getAddress().isEmpty()) {
             existingUser.setAddress(userReqFe.getAddress());
@@ -130,8 +132,8 @@ public class UserService {
     }
     public CreateUserReponse converToCreateUserReponse(User user) {
         CreateUserReponse res = new CreateUserReponse();
-        res.setFirstName(user.getFirstName());
-        res.setLastName(user.getLastName());
+        res.setFirstName(user.getName());
+//        res.setLastName(user.getLastName());
         res.setEmail(user.getEmail());
         res.setPhone(user.getPhone());
         res.setGender(user.getGender().toString());
@@ -141,8 +143,8 @@ public class UserService {
     }
     public UpdateUserReponse converToUpdateUserReponse(User user) {
         UpdateUserReponse res = new UpdateUserReponse();
-        res.setFirstName(user.getFirstName());
-        res.setLastName(user.getLastName());
+        res.setFirstName(user.getName());
+//        res.setLastName(user.getLastName());
         res.setEmail(user.getEmail());
         res.setPhone(user.getPhone());
         res.setGender(user.getGender().toString());
@@ -166,8 +168,8 @@ public class UserService {
 
         return new UserReponse(
                 user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
+                user.getName(),
+//                user.getLastName(),
                 user.getGender(),
                 user.getPassword(),
                 user.getPhone(),
@@ -187,5 +189,15 @@ public class UserService {
                 user.getUserCourses()
         );
     }
+    public void updateUserToken(String token, String email) {
+        User currentUser = this.handleGetUserByUsername(email);
+        if (currentUser != null) {
+            currentUser.setRefreshToken(token);
+            this.userRepository.save(currentUser);
+        }
+    }
 
+    public User getUserByRefreshTokenAndEmail(String token, String email) {
+        return this.userRepository.findByRefreshTokenAndEmail(token, email);
+    }
 }

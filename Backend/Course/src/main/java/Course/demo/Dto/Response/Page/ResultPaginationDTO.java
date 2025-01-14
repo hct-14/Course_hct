@@ -1,4 +1,4 @@
-package Course.demo.Dto.Reponse.Page;
+package Course.demo.Dto.Response.Page;
 
 import lombok.Getter;
 import lombok.Setter;

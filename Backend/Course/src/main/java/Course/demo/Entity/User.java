@@ -23,8 +23,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String firstName;
-    private String lastName;
+    private String name;
+
 
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
@@ -60,4 +60,6 @@ public class User {
     // Quan hệ One-to-Many với UserCourse
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserCourse> userCourses;
+
+
 }

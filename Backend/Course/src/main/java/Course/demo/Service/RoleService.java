@@ -1,11 +1,11 @@
 package Course.demo.Service;
 
-import Course.demo.Dto.Reponse.Page.ResultPaginationDTO;
-import Course.demo.Dto.Reponse.PermissionReponse;
-import Course.demo.Dto.Reponse.ProveResponse;
-import Course.demo.Dto.Reponse.RoleReponse;
+
 import Course.demo.Dto.Request.CreateRoleReq;
 import Course.demo.Dto.Request.UpdateRoleReq;
+import Course.demo.Dto.Response.Page.ResultPaginationDTO;
+import Course.demo.Dto.Response.PermissionReponse;
+import Course.demo.Dto.Response.RoleReponse;
 import Course.demo.Entity.Permission;
 import Course.demo.Entity.Role;
 import Course.demo.Mapper.RoleMapper;
@@ -105,7 +105,7 @@ public class RoleService {
         meta.setTotal(pages.getTotalElements());
 
         List<RoleReponse> roles = pages.stream().map(
-                item->this.converToRoleReponse(item))
+                        item->this.converToRoleReponse(item))
                 .collect(Collectors.toList());
 
         res.setMeta(meta);

@@ -1,6 +1,5 @@
 package Course.demo.Dto.Request;
 
-import Course.demo.Dto.Reponse.PermissionReponse;
 import Course.demo.Entity.Permission;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

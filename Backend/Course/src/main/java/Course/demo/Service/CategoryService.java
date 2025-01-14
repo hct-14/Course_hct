@@ -1,7 +1,7 @@
 package Course.demo.Service;
 
-import Course.demo.Dto.Reponse.CategoryReponse;
-import Course.demo.Dto.Reponse.Page.ResultPaginationDTO;
+import Course.demo.Dto.Response.CategoryReponse;
+import Course.demo.Dto.Response.Page.ResultPaginationDTO;
 import Course.demo.Dto.Request.CategoryReq;
 import Course.demo.Entity.Category;
 import Course.demo.Mapper.CategoryMaper;
@@ -12,8 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

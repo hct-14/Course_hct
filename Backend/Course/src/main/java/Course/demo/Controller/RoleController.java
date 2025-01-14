@@ -1,7 +1,7 @@
 package Course.demo.Controller;
 
-import Course.demo.Dto.Reponse.Page.ResultPaginationDTO;
-import Course.demo.Dto.Reponse.RoleReponse;
+import Course.demo.Dto.Response.Page.ResultPaginationDTO;
+import Course.demo.Dto.Response.RoleReponse;
 import Course.demo.Dto.Request.CreateRoleReq;
 import Course.demo.Dto.Request.UpdateRoleReq;
 import Course.demo.Entity.Role;

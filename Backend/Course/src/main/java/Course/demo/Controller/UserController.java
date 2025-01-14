@@ -1,9 +1,9 @@
 package Course.demo.Controller;
 
-import Course.demo.Dto.Reponse.CreateUserReponse;
-import Course.demo.Dto.Reponse.Page.ResultPaginationDTO;
-import Course.demo.Dto.Reponse.UpdateUserReponse;
-import Course.demo.Dto.Reponse.UserReponse;
+import Course.demo.Dto.Response.CreateUserReponse;
+import Course.demo.Dto.Response.Page.ResultPaginationDTO;
+import Course.demo.Dto.Response.UpdateUserReponse;
+import Course.demo.Dto.Response.UserReponse;
 import Course.demo.Dto.Request.UpdateUserReq;
 import Course.demo.Dto.Request.UserReq;
 import Course.demo.Entity.User;
@@ -14,6 +14,8 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.ResponseEntity;
@@ -22,15 +24,19 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("api/user")
 public class UserController {
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<CreateUserReponse> test(@Valid @RequestBody UserReq userReq) {
 
-    User userSave = this.userService.createUser(userReq);
+    public ResponseEntity<CreateUserReponse> test(@Valid @RequestBody UserReq userReq) {
+        String hashPassword = this.passwordEncoder.encode(userReq.getPassword());
+
+     User userSave = this.userService.createUser(userReq);
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToCreateUserReponse(userSave));
     }
     @PutMapping("update")
