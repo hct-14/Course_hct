@@ -43,6 +43,6 @@ public class UserReponse {
     private float income;
     @JsonIgnore
     private Role role;
-    private List<ProveResponse> proves;
+    private List<ProveUserResponse> proves;
     private List<UserCourse> userCourses;
 }

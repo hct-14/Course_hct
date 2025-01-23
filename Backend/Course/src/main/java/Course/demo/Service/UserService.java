@@ -2,7 +2,7 @@ package Course.demo.Service;
 
 import Course.demo.Dto.Response.CreateUserReponse;
 import Course.demo.Dto.Response.Page.ResultPaginationDTO;
-import Course.demo.Dto.Response.ProveResponse;
+import Course.demo.Dto.Response.ProveUserResponse;
 import Course.demo.Dto.Response.UpdateUserReponse;
 import Course.demo.Dto.Response.UserReponse;
 import Course.demo.Dto.Request.UpdateUserReq;
@@ -154,8 +154,8 @@ public class UserService {
         return res;
     }
     public UserReponse converToUserReponse(User user) {
-        List<ProveResponse> proveResponses = user.getProves().stream()
-                .map(prove -> new ProveResponse(
+        List<ProveUserResponse> proveResponses = user.getProves().stream()
+                .map(prove -> new ProveUserResponse(
                         prove.getId(),
                         prove.getCountry(),
                         prove.getNameFacility(),

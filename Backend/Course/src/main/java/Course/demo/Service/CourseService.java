@@ -29,22 +29,18 @@ public class CourseService {
 
     public Course createCourse(CreateCourseReq courseRequest) {
 
-        // Chuyển đổi courseRequest thành đối tượng Course
         Course course = courseMapper.toCourse(courseRequest);
         if (course == null) {
             throw new RuntimeException("Error converting courseRequest to Course");
         }
-
         // Lấy email của người dùng hiện tại
         String currentUserEmail = SecurityUtil.getCurrentUserLogin()
                 .orElseThrow(() -> new RuntimeException("User is not logged in"));
-
         // Tìm người dùng theo email
         User currentUser = userRepository.findByEmail(currentUserEmail);
         if (currentUser == null) {
             throw new RuntimeException("User not found with email: " + currentUserEmail);
         }
-
         // Khởi tạo danh sách UserCourses nếu chưa có
         if (course.getUserCourses() == null) {
             course.setUserCourses(new ArrayList<>());
@@ -57,7 +53,6 @@ public class CourseService {
 
         // Thêm UserCourse vào danh sách UserCourses của khóa học
         course.getUserCourses().add(userCourse);
-
         // Lưu khóa học và trả về kết quả
         return courseRepository.save(course);
     }

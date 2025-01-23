@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProveResponse {
+public class ProveUserResponse {
 
     private int id;
     private String country;
@@ -18,19 +18,5 @@ public class ProveResponse {
     private String city;
     private String image;
     private String type;
-
-    private UserProve user;
-
-    @Setter
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class UserProve{
-        private int id;
-        private String name;
-        private String email;
-        private String phone;
-
-    }
 
 }
