@@ -4,7 +4,6 @@ import Course.demo.Entity.Role;
 import Course.demo.Entity.User;
 import Course.demo.Repository.RoleRepository;
 import Course.demo.Repository.UserRepository;
-import Course.demo.Util.constant.ExpEnum;
 import Course.demo.Util.constant.GenderEnum;
 import Course.demo.Util.constant.TeacherStatusEnum;
 import com.github.javafaker.Faker;
@@ -55,7 +54,6 @@ public class UserSeeder {
             user.setAddress(faker.address().fullAddress());
             user.setEmail(faker.internet().emailAddress());
             user.setBirthday(randomBirthday());
-            user.setExp(randomExp());
             user.setCvUrl(faker.internet().url());
             user.setTeacherStatus(randomTeacherStatus());
             user.setDescription(faker.lorem().sentence());
@@ -84,10 +82,10 @@ public class UserSeeder {
         return LocalDate.now().minusYears(random.nextInt(50) + 18);
     }
 
-    private ExpEnum randomExp() {
-        ExpEnum[] exps = ExpEnum.values();
-        return exps[random.nextInt(exps.length)];
+    private int randomNumber() {
+        return random.nextInt(20) + 1;  // Tạo số ngẫu nhiên từ 1 đến 20
     }
+
 
     private TeacherStatusEnum randomTeacherStatus() {
         TeacherStatusEnum[] statuses = TeacherStatusEnum.values();

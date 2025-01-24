@@ -15,8 +15,7 @@ public class TeacherReponse {
     private int id;
     private String description;
     private String linkFb;
-    private String exp;
-    private String teacher;
+    private int exp;
     private String cvUrl;
     private TeacherStatusEnum teacherStatus;
 

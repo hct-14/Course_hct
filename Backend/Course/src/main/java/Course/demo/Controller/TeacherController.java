@@ -20,10 +20,10 @@ public class TeacherController {
     }
 
 
-    @PostMapping("/create")
+    @PutMapping("/register")
         public ResponseEntity<TeacherReponse> registerTeacher(@Valid @RequestBody RegisterTeacherReq teacherReq) {
 
-            User user = this.teacherService.register(teacherReq);
+            User user = this.teacherService.updateTeacher(teacherReq);
 
             return ResponseEntity.status(HttpStatus.OK).body(this.teacherService.convertoTeacherDTO(user));
 

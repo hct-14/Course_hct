@@ -1,6 +1,5 @@
 package Course.demo.Entity;
 
-import Course.demo.Util.constant.ExpEnum;
 import Course.demo.Util.constant.GenderEnum;
 import Course.demo.Util.constant.TeacherStatusEnum;
 import jakarta.persistence.*;
@@ -34,7 +33,7 @@ public class User {
     private String address;
     private String email;
     private LocalDate birthday;
-    private ExpEnum exp;
+    private int exp;
     private String cvUrl;
 //    private UserStatusEnum userStatus;
     private TeacherStatusEnum teacherStatus;

@@ -2,7 +2,6 @@ package Course.demo.Dto.Response;
 
 import Course.demo.Entity.Role;
 import Course.demo.Entity.UserCourse;
-import Course.demo.Util.constant.ExpEnum;
 import Course.demo.Util.constant.GenderEnum;
 import Course.demo.Util.constant.TeacherStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,7 +32,7 @@ public class UserReponse {
     private String address;
     private String email;
     private LocalDate birthday;
-    private ExpEnum exp;
+    private int exp;
     private String cvUrl;
     private TeacherStatusEnum teacherStatus;
     private String description;

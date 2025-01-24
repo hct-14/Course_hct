@@ -1,6 +1,7 @@
 package Course.demo.Dto.Response;
 
 import Course.demo.Entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,6 @@ public class CourseResponse {
     private String request;
     private float rating;
 
-    private List<User> users;
+    @JsonIgnore
+    private List<UserResponse> users;
 }

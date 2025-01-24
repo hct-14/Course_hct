@@ -19,4 +19,5 @@ public class CreateCourseReq {
     private String description;
     private String provide;
     private String request;
+    private float rating;
 }
