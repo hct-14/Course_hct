@@ -14,14 +14,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "chapter")
-
 public class Chapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
-
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
+//    private String images;
+    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons;
-
 }

@@ -2,7 +2,9 @@ package Course.demo.Service;
 
 
 import Course.demo.Dto.Request.CreateCourseReq;
+import Course.demo.Dto.Request.UpdateCourseReq;
 import Course.demo.Dto.Response.CourseResponse;
+import Course.demo.Dto.Response.Page.ResultPaginationDTO;
 import Course.demo.Dto.Response.ProveUserResponse;
 import Course.demo.Dto.Response.UserResponse;
 import Course.demo.Entity.Course;
@@ -12,6 +14,9 @@ import Course.demo.Mapper.CourseMapper;
 import Course.demo.Repository.CourseRepository;
 import Course.demo.Repository.UserRepository;
 import Course.demo.Util.SecurityUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -70,7 +75,74 @@ public class CourseService {
         return courseRepository.save(course);
     }
 
+    public Course fetchById(int id) {
+        Optional<Course> course = courseRepository.findById(id);
+        if (!course.isPresent()) {
+            throw new RuntimeException("Course not found with id: " + id);
+        }
+        return course.get();
+    }
 
+    public Course updateCourse(UpdateCourseReq courseReq) {
+        Course course = courseMapper.toCourseUpdate(courseReq);
+
+        Optional<Course> optionalCourse = courseRepository.findById(course.getId());
+        if (!optionalCourse.isPresent()) {
+            throw new RuntimeException("Course not found with id: " + course.getId());
+        }
+        Course updatedCourse = optionalCourse.get();
+        // Cập nhật các trường có thể thay đổi
+        if (courseReq.getName() != null) {
+            updatedCourse.setName(courseReq.getName());
+        }
+        if (courseReq.getDescription() != null) {
+            updatedCourse.setDescription(courseReq.getDescription());
+        }
+        if (courseReq.getDescriptionName() != null) {
+            updatedCourse.setDescriptionName(courseReq.getDescriptionName());
+        }
+        if (courseReq.getProvide() != null) {
+            updatedCourse.setProvide(courseReq.getProvide());
+        }
+        if (courseReq.getRequest() != null) {
+            updatedCourse.setRequest(courseReq.getRequest());
+        }
+        if (courseReq.getRating() != 0) { // Giả sử rating mặc định là 0
+            updatedCourse.setRating(courseReq.getRating());
+        }
+
+//        // Cập nhật userCourses (nếu có)
+//        if (courseReq.getUserCourses() != null && !courseReq.getUserCourses().isEmpty()) {
+//            updatedCourse.setUserCourses(courseReq.getUserCourses());
+//        }
+
+        return courseRepository.save(updatedCourse);
+
+    }
+    public ResultPaginationDTO fetchAllCourses(Specification<Course> specification, Pageable pageable) {
+        Page<Course> courses = courseRepository.findAll(specification, pageable);
+        ResultPaginationDTO res = new ResultPaginationDTO();
+        ResultPaginationDTO.Meta mt = new ResultPaginationDTO.Meta();
+
+        mt.setPage(pageable.getPageNumber() + 1);
+        mt.setPageSize(pageable.getPageSize());
+        mt.setPages(courses.getTotalPages());
+        mt.setTotal(courses.getTotalElements());
+        res.setMeta(mt);
+        List<CourseResponse> courseList = courses.getContent().stream().map(
+                item-> this.convertToCourseResponse(item)
+        ).collect(Collectors.toList());
+        res.setResult(courseList);
+        return res;
+    }
+    public void deleteCourse(int id) {
+        Optional<Course> course = courseRepository.findById(id);
+        if (!course.isPresent()) {
+            throw new RuntimeException("Course not found with id: " + id);
+
+        }
+        courseRepository.deleteById(id);
+    }
     public CourseResponse convertToCourseResponse(Course course) {
         // Lấy danh sách UserResponse từ UserCourse chỉ khi isTeacher = true
         List<UserResponse> userResponses = course.getUserCourses().stream()

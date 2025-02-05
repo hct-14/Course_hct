@@ -21,6 +21,8 @@ public class Lesson {
     private String title;
     private String description;
 
+    private String image;
+
     @ManyToOne
     @JoinColumn(name = "chapter_id")
     private Chapter chapter;
