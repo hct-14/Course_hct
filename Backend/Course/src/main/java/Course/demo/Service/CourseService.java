@@ -14,6 +14,7 @@ import Course.demo.Mapper.CourseMapper;
 import Course.demo.Repository.CourseRepository;
 import Course.demo.Repository.UserRepository;
 import Course.demo.Util.SecurityUtil;
+import Course.demo.Util.error.IdInvaldException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -83,12 +84,12 @@ public class CourseService {
         return course.get();
     }
 
-    public Course updateCourse(UpdateCourseReq courseReq) {
+    public Course updateCourse(UpdateCourseReq courseReq)throws IdInvaldException {
         Course course = courseMapper.toCourseUpdate(courseReq);
 
         Optional<Course> optionalCourse = courseRepository.findById(course.getId());
         if (!optionalCourse.isPresent()) {
-            throw new RuntimeException("Course not found with id: " + course.getId());
+            throw new IdInvaldException("Course not found with id: " + course.getId());
         }
         Course updatedCourse = optionalCourse.get();
         // Cập nhật các trường có thể thay đổi

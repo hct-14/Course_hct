@@ -91,6 +91,10 @@ public class ChapterService {
             throw new IdInvaldException("Course not found");
         }
         Chapter chapter = optionalChapter.get();
+        if (chapter.getCourse()!=null) {
+            chapter.setCourse(null);
+        }
+        this.chapterRepository.deleteById(id);
     }
 
     public ChapterResponse convertToChapterResponse(Chapter chapter) {
