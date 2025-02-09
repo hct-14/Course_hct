@@ -27,6 +27,8 @@ public class Course {
     private String description;
     private String provide;
     private String request;
+    private float skyHighPrices;
+    private float price;
     private float rating;
 
     // Quan hệ Many-to-One với Category
@@ -38,8 +40,13 @@ public class Course {
     private List<Chapter> chapters;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Payment> payments;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserCourse> userCourses;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
+
 }

@@ -12,6 +12,7 @@ import Course.demo.Entity.User;
 import Course.demo.Entity.UserCourse;
 import Course.demo.Mapper.CourseMapper;
 import Course.demo.Repository.CourseRepository;
+import Course.demo.Repository.UserCourseRepository;
 import Course.demo.Repository.UserRepository;
 import Course.demo.Util.SecurityUtil;
 import Course.demo.Util.error.IdInvaldException;
@@ -32,10 +33,12 @@ public class CourseService {
     private CourseRepository courseRepository;
     private CourseMapper courseMapper;
     private UserRepository userRepository;
-    public CourseService(CourseRepository courseRepository, CourseMapper courseMapper, UserRepository userRepository) {
+    private UserCourseRepository userCourseRepository;
+    public CourseService(CourseRepository courseRepository, CourseMapper courseMapper, UserRepository userRepository, UserCourseRepository userCourseRepository) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.userRepository = userRepository;
+        this.userCourseRepository = userCourseRepository;
     }
 
     public Course createCourse(CreateCourseReq courseRequest) {
@@ -136,6 +139,92 @@ public class CourseService {
         res.setResult(courseList);
         return res;
     }
+    ///Khoá học đã mua
+    public ResultPaginationDTO fetchAllCoursesById(Specification<Course> specification, Pageable pageable) {
+        // Lấy email của người dùng hiện tại
+        String currentUserEmail = SecurityUtil.getCurrentUserLogin()
+                .orElseThrow(() -> new RuntimeException("User is not logged in"));
+
+        // Tìm người dùng theo email
+        User currentUser = userRepository.findByEmail(currentUserEmail);
+        if (currentUser == null) {
+            throw new RuntimeException("User not found with email: " + currentUserEmail);
+        }
+
+        // Lấy danh sách courseId của user từ bảng UserCourse
+        List<Integer> enrolledCourseIds = userCourseRepository.findCourseIdsByUserId(currentUser.getId());
+
+        // Lọc chỉ các khóa học mà user đã đăng ký
+        Specification<Course> userCoursesSpec = (root, query, cb) -> root.get("id").in(enrolledCourseIds);
+        Specification<Course> finalSpec = specification.and(userCoursesSpec);
+
+        // Lấy danh sách khóa học theo điều kiện
+        Page<Course> courses = courseRepository.findAll(finalSpec, pageable);
+
+        // Tạo đối tượng kết quả
+        ResultPaginationDTO res = new ResultPaginationDTO();
+        ResultPaginationDTO.Meta mt = new ResultPaginationDTO.Meta();
+        mt.setPage(pageable.getPageNumber() + 1);
+        mt.setPageSize(pageable.getPageSize());
+        mt.setPages(courses.getTotalPages());
+        mt.setTotal(courses.getTotalElements());
+        res.setMeta(mt);
+
+        // Chuyển đổi danh sách Course sang CourseResponse
+        List<CourseResponse> courseList = courses.getContent().stream()
+                .map(this::convertToCourseResponse)
+                .collect(Collectors.toList());
+
+        res.setResult(courseList);
+        return res;
+    }
+
+    public ResultPaginationDTO fetchAllCoursesByTeacher(Specification<Course> specification, Pageable pageable) {
+        // Lấy email của người dùng hiện tại
+        String currentUserEmail = SecurityUtil.getCurrentUserLogin()
+                .orElseThrow(() -> new RuntimeException("User is not logged in"));
+
+        // Tìm người dùng theo email
+        User currentUser = userRepository.findByEmail(currentUserEmail);
+        if (currentUser == null) {
+            throw new RuntimeException("User not found with email: " + currentUserEmail);
+        }
+
+        // Lấy danh sách courseId mà user là giảng viên (isTeacher = true)
+        List<Integer> teacherCourseIds = userCourseRepository.findTeacherCourseIdsByUserId(currentUser.getId());
+
+        // Nếu không có khóa học nào, trả về danh sách rỗng
+        if (teacherCourseIds.isEmpty()) {
+            return null;
+        }
+
+        // Lọc chỉ các khóa học mà user là giảng viên
+        Specification<Course> teacherCoursesSpec = (root, query, cb) -> root.get("id").in(teacherCourseIds);
+        Specification<Course> finalSpec = specification.and(teacherCoursesSpec);
+
+        // Lấy danh sách khóa học theo điều kiện
+        Page<Course> courses = courseRepository.findAll(finalSpec, pageable);
+
+        // Tạo đối tượng kết quả
+        ResultPaginationDTO res = new ResultPaginationDTO();
+        ResultPaginationDTO.Meta mt = new ResultPaginationDTO.Meta();
+        mt.setPage(pageable.getPageNumber() + 1);
+        mt.setPageSize(pageable.getPageSize());
+        mt.setPages(courses.getTotalPages());
+        mt.setTotal(courses.getTotalElements());
+        res.setMeta(mt);
+
+        // Chuyển đổi danh sách Course sang CourseResponse
+        List<CourseResponse> courseList = courses.getContent().stream()
+                .map(this::convertToCourseResponse)
+                .collect(Collectors.toList());
+
+        res.setResult(courseList);
+        return res;
+    }
+
+
+
     public void deleteCourse(int id) {
         Optional<Course> course = courseRepository.findById(id);
         if (!course.isPresent()) {
@@ -162,6 +251,8 @@ public class CourseService {
                 course.getProvide(),
                 course.getRequest(),
                 course.getRating(),
+                course.getPrice(),
+                course.getSkyHighPrices(),
                 userResponses
         );
     }

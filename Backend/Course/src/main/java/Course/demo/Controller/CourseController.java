@@ -25,7 +25,7 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @PostMapping("create")
+    @PostMapping("/create")
     @ApiMessage("success")
 
     public ResponseEntity<CourseResponse> create(@Valid @RequestBody CreateCourseReq course) {
@@ -33,7 +33,7 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK).body(this.courseService.convertToCourseResponse(this.courseService.createCourse(course)));
     }
 
-    @PutMapping("update")
+    @PutMapping("/update")
     @ApiMessage("success")
 
     public ResponseEntity<CourseResponse> update(@Valid @RequestBody UpdateCourseReq courseReq)throws IdInvaldException {
@@ -41,18 +41,18 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK).body(this.courseService.convertToCourseResponse(course));
     }
 
-    @GetMapping("fetch-by-{id}")
+    @GetMapping("/fetch-by-{id}")
     @ApiMessage("success")
     public ResponseEntity<CourseResponse> fetchById(@PathVariable int id) {
         return ResponseEntity.status(HttpStatus.OK).body(this.courseService.convertToCourseResponse(this.courseService.fetchById(id)));
     }
-    @GetMapping("fetchAll")
+    @GetMapping("/fetchAll")
     @ApiMessage("success")
     public ResponseEntity<ResultPaginationDTO> fetchAll(Specification<Course> spec, Pageable pageable){
 
         return ResponseEntity.status(HttpStatus.OK).body(this.courseService.fetchAllCourses(spec, pageable));
     }
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @ApiMessage("success")
 
     public ResponseEntity<String> delete(@PathVariable int id) {

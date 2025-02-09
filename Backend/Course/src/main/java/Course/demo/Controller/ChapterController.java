@@ -8,6 +8,7 @@ import Course.demo.Entity.Chapter;
 import Course.demo.Service.ChapterService;
 import Course.demo.Util.annotation.ApiMessage;
 import Course.demo.Util.error.IdInvaldException;
+import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.DomainEvents;
 import org.springframework.data.domain.Pageable;
@@ -31,9 +32,9 @@ public class ChapterController {
     @PostMapping("/create")
     @ApiMessage("success")
 
-    public ResponseEntity<Chapter> createChapter(@RequestBody @Valid CreateChapterReq chapterReq) throws IdInvaldException {
+    public ResponseEntity<ChapterResponse> createChapter(@RequestBody @Valid CreateChapterReq chapterReq) throws IdInvaldException {
         Chapter chapter = this.chapterService.createChapter(chapterReq);
-        return ResponseEntity.status(HttpStatus.OK).body(chapter);
+        return ResponseEntity.status(HttpStatus.OK).body(this.chapterService.convertToChapterResponse(chapter));
     }
 
     @PutMapping("update")
@@ -53,7 +54,7 @@ public class ChapterController {
 
     @GetMapping("fetchAll")
     @ApiMessage("success")
-    public ResponseEntity<ResultPaginationDTO> fetchAllChapters(Specification<Chapter> spec, Pageable pageable) {
+    public ResponseEntity<ResultPaginationDTO> fetchAllChapters(@Filter Specification<Chapter> spec, Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(this.chapterService.fetchAll(spec, pageable));
     }
     @DeleteMapping("delete/{id}")

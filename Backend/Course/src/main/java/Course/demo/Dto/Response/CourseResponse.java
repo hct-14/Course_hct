@@ -22,6 +22,8 @@ public class CourseResponse {
     private String provide;
     private String request;
     private float rating;
+    private float price;
+    private float salePrice;
 
     @JsonIgnore
     private List<UserResponse> users;

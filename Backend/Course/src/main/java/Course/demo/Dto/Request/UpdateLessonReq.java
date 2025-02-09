@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateLessonReq {
 
-//    private int id;
+    private int id;
     private String title;
     private String description;
     private int chapterId;

@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -98,13 +99,17 @@ public class ChapterService {
     }
 
     public ChapterResponse convertToChapterResponse(Chapter chapter) {
-        // Chuyển đổi các Lesson thành LessonChapterResponse
-        List<LessonChapterResponse> lessons = chapter.getLessons().stream().map(item -> new LessonChapterResponse(
-                item.getId(),
-                item.getTitle(),
-                item.getDescription(),
-                item.getImage()
-        )).collect(Collectors.toList());
+        // Khởi tạo danh sách lessons rỗng
+        List<LessonChapterResponse> lessons = new ArrayList<>();
+
+        if (chapter.getLessons() != null) {
+            lessons = chapter.getLessons().stream().map(item -> new LessonChapterResponse(
+                    item.getId(),
+                    item.getTitle(),
+                    item.getDescription(),
+                    item.getImage()
+            )).collect(Collectors.toList());
+        }
 
         CourseResponse courseResponse = null;
         if (chapter.getCourse() != null) {
@@ -116,6 +121,8 @@ public class ChapterService {
                     chapter.getCourse().getProvide(),
                     chapter.getCourse().getRequest(),
                     chapter.getCourse().getRating(),
+                    chapter.getCourse().getPrice(),
+                    chapter.getCourse().getSkyHighPrices(),
                     null
             );
         }

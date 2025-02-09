@@ -16,6 +16,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/api/lesson")
@@ -25,19 +29,24 @@ public class LessonController {
         this.lessonService = lessonService;
     }
 
-    @PostMapping("create")
-    @ApiMessage("success")
-    public ResponseEntity<LessonResponse> createLesson(@RequestBody @Valid CreateLessonReq request)throws IdInvaldException {
-        Lesson lesson = lessonService.createLesson(request);
-        return ResponseEntity.status(HttpStatus.OK).body(this.lessonService.convertToLessonResponse(lesson));
-    }
-    @PutMapping("update")
-    @ApiMessage("success")
+    @PostMapping("/create")
+    public Lesson createLesson(@ModelAttribute CreateLessonReq lessonReq,
+                               @RequestParam("file") MultipartFile file,
+                               @RequestParam("folder") String folder) throws IdInvaldException, URISyntaxException, IOException {
 
-    public ResponseEntity<LessonResponse> updateLesson(@RequestBody @Valid UpdateLessonReq request)throws IdInvaldException {
-        Lesson lesson = lessonService.updateLesson(request);
-        return ResponseEntity.status(HttpStatus.OK).body(this.lessonService.convertToLessonResponse(lesson));
+        return lessonService.createLesson(lessonReq, file, folder);
     }
+
+
+    @PutMapping("/update")
+    public Lesson updateLesson(@ModelAttribute UpdateLessonReq lessonReq,
+                               @RequestParam("file") MultipartFile file,
+                               @RequestParam("folder") String folder) throws IdInvaldException, URISyntaxException, IOException {
+
+        return lessonService.updateLesson(lessonReq, file, folder);
+    }
+
+
     @GetMapping("fetch-by-{id}")
     @ApiMessage("success")
     public ResponseEntity<LessonResponse> fetchLessonById(@PathVariable int id)throws IdInvaldException {
